@@ -68,7 +68,7 @@ class _GamePageState extends State<GamePage> {
   }
 
   int _pointsForCurrentRound() {
-    return 999;
+    return (_model.current - _model.target).abs();
   }
 
   void _showAlert(BuildContext context) {
