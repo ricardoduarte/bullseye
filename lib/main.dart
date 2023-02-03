@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:math';
 import 'prompt.dart';
 import 'control.dart';
 import 'score.dart';
@@ -40,7 +41,7 @@ class _GamePageState extends State<GamePage> {
   @override
   void initState() {
     super.initState();
-    _model = GameModel(50);
+    _model = GameModel(Random().nextInt(100) + 1);
   }
 
   @override
@@ -50,7 +51,7 @@ class _GamePageState extends State<GamePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Prompt(targetValue: 100),
+            Prompt(targetValue: _model.target),
             Control(model: _model,),
             TextButton(
                 onPressed: () {
@@ -64,6 +65,10 @@ class _GamePageState extends State<GamePage> {
         ),
       ),
     );
+  }
+
+  int _pointsForCurrentRound() {
+    return 999;
   }
 
   void _showAlert(BuildContext context) {
@@ -81,7 +86,8 @@ class _GamePageState extends State<GamePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Hello there!'),
-          content: Text("The slider's value is ${_model.current}"),
+          content: Text("The slider's value is ${_model.current}.\n"
+              "You scored ${_pointsForCurrentRound()} points this round."),
           actions: [
             okButton,
           ],
