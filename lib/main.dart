@@ -5,6 +5,8 @@ import 'prompt.dart';
 import 'control.dart';
 import 'score.dart';
 import 'game_model.dart';
+import 'hit_me_button.dart';
+import 'styled_button.dart';
 
 void main() {
   runApp(const BullsEyeApp());
@@ -19,6 +21,7 @@ class BullsEyeApp extends StatelessWidget {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
     return const MaterialApp(
       title: 'Bullseye',
@@ -45,26 +48,41 @@ class _GamePageState extends State<GamePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Prompt(targetValue: _model.target),
-            Control(
-              model: _model,
-            ),
-            TextButton(
-                onPressed: () {
+    return Container(
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          image: DecorationImage(
+            image: AssetImage('images/background.png'),
+            fit: BoxFit.cover,
+          )),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 48.0, bottom: 32.0),
+                child: Prompt(targetValue: _model.target),
+              ),
+              Control(
+                model: _model,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: HitMeButton(text: 'HIT ME', onPressed: () {
                   _showAlert(context);
-                },
-                child: const Text('Hit me!',
-                    style: TextStyle(color: Colors.blue))),
-            Score(
-                totalScore: _model.totalScore,
-                round: _model.round,
-                onStartOver: _startNewGame),
-          ],
+                }),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Score(
+                    totalScore: _model.totalScore,
+                    round: _model.round,
+                    onStartOver: _startNewGame),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -113,7 +131,8 @@ class _GamePageState extends State<GamePage> {
   }
 
   void _showAlert(BuildContext context) {
-    var okButton = TextButton(
+    var okButton = StyledButton(
+      icon: Icons.close,
       onPressed: () {
         Navigator.of(context).pop();
         setState(() {
@@ -122,7 +141,6 @@ class _GamePageState extends State<GamePage> {
           _model.round += 1;
         });
       },
-      child: const Text('Awesome!'),
     );
 
     showDialog(

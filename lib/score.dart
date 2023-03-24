@@ -1,4 +1,6 @@
+import 'package:bullseye/text_styles.dart';
 import 'package:flutter/material.dart';
+import 'styled_button.dart';
 
 class Score extends StatelessWidget {
   const Score(
@@ -16,33 +18,46 @@ class Score extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        TextButton(
-          onPressed: () {
-            onStartOver();
-          },
-          child: const Text('Start Over'),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: <Widget>[
-              const Text('Score: '),
-              Text('$totalScore'),
-            ],
+        StyledButton(
+            icon: Icons.refresh,
+            onPressed: () {
+              onStartOver();
+            }),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 32.0, right: 32.0),
+            child: Row(
+              children: <Widget>[
+                Text(
+                  'Score: ',
+                  style: LabelTextStyle.bodyLarge(context),
+                ),
+                Text(
+                  '$totalScore',
+                  style: ScoreNumberTextStyle.headlineMedium(context),
+                ),
+              ],
+            ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 32.0, right: 32.0),
           child: Row(
             children: <Widget>[
-              const Text('Round: '),
-              Text('$round'),
+              Text('Round: ',
+                  style: LabelTextStyle.bodyLarge(
+                    context,
+                  )),
+              Text(
+                '$round',
+                style: ScoreNumberTextStyle.headlineMedium(context),
+              ),
             ],
           ),
         ),
-        TextButton(
+        StyledButton(
+          icon: Icons.info,
           onPressed: () {},
-          child: const Text('Info'),
         ),
       ],
     );
